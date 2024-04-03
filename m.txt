@@ -1,0 +1,105 @@
+create database college;
+use college;
+create table student(name varchar(20), roll int, section varchar(5));
+desc student;
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+insert into student values(---------);
+insert into student(ID) values(22);
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+select * from student;
+select roll, name from student;
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+truncate student;
+drop table student;
+delete from student where roll=22;
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+create database college;
+use college;
+create TABLE student(name varchar(20), roll int, section varchar(5), semester int);
+desc student;
+INSERT into student values("Mayur", 22, "B", 4);
+INSERT into student values("Pratyush", 43, "B", 4);
+INSERT into student values("Yuvraj", 52, "A", 4);
+INSERT into student values("Chandan", 32, "C", 4);
+SELECT * from student;
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+CREATE table keykey(id int PRIMARY KEY, name varchar(20) NOT NULL, category varchar(10), price int DEFAULT "10", age int check(age>=18));
+INSERT INTO keykey VALUES(1, "Mayur", null, DEFAULT, 17);
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+** Shopping--> **
+create table customer(customerID int PRIMARY key, name varchar(20) not null, age int, phone varchar(10) UNIQUE KEY not null, address varchar(20), email varchar(20));
+create table review(review_ID int PRIMARY KEY, review_Data varchar(20) not null, review_Star int CHECK(review_Star<=5));
+create table order_History(order_ID int PRIMARY KEY, price int NOT null, order_Date varchar(8) not null, feedback varchar(20), delevered_Date varchar(8) not null);
+create table delevery_Boy(delevery_Boy_ID int PRIMARY KEY, name varchar(20) not null, phone varchar(10) unique not null, vechile_number varchar(10) not null unique);
+create table order_Details(order_ID int PRIMARY KEY, price int NOT null, discount int not null, bill_ID int unique not null);
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+** Train Reservation--> **
+CREATE table passanger(ID int PRIMARY key, name varchar(20) not null, phone varchar(10) UNIQUE not null, age int not null, gender varchar(1) not null);
+CREATE table ticket(ID int PRIMARY key, PNR varchar(10) UNIQUE not null, seat_No int not null UNIQUE, coach_No varchar(3)not null, number_of_Passangers int not null, train_Time varchar(8) not null);
+CREATE table station(ID int PRIMARY key, name varchar(20) not null, station_Zone varchar(20) not null, number_of_Plateform int not null);
+CREATE table money(ID int PRIMARY key, bank_Name varchar(20) not null, account_Number varchar(10) unique not null, amount int not null, money_date varchar(8) not null, money_Time varchar(8) not null, UPI_Type varchar(20) not null);
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+create table ticket(TicketNo int primary key, TData date not null, TFare int not null, PId int, TNo int, FOREIGN KEY(PId) REFERENCES passanger(PId), FOREIGN KEY(TNo) REFERENCES train(TNo));
+update passanger(table name) set PAddress = "Tonk" where PId = 4;
+update passanger set PAge = PAge+5;
+update passanger set PAge = PAge-5 where PId BETWEEN 4 and 6;
+DELETE from passanger WHERE PId = 6;
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+SELECT * from student ORDER BY SName;
+SELECT * from student ORDER BY SName desc;
+SELECT max(SPer) from student;
+SELECT max(SPer) as MaxPercentage from student;
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+GROUP BY always used with aggregates(max, min, avg, sum, count), otherwise not
+BETWEEN can also be use in GROUP BY
+SELECT SBranch, max(SPer) from student GROUP BY SBranch; [GROUP BY]
+SELECT SName, max(SPer) from student GROUP BY SBranch; [GROUP BY]
+SELECT SBranch, count(SPer) from student GROUP BY SBranch; [GROUP BY]
+
+we use HAVING, not WHERE in GROUP BY
+SELECT SBranch, max(SPer) from student GROUPBY HAVING max(SPer)>50; [GROUPBY]
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+ALTER table student add hobbie varchar(20);
+ALTER table student drop COLUMN hobbie;
+ALTER table student MODIFY SBranch int;
+ALTER table student MODIFY SBranch varchar(40);
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+create table sing(SId int PRIMARY key, FOREIGN KEY(SId) REFERENCES passanger(PId), SName varchar(20))
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+SELECT * from dance UNION SELECT * from sing
+
+
+SELECT * from dance intersect SELECT * from sing
+SELECT * from dance except SELECT * from sing
+
