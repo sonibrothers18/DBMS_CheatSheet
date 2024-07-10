@@ -1,107 +1,320 @@
+##  BASICS -->
 
+system cls;
+create database college;
 use college;
 create table student(name varchar(20), roll int, section varchar(5));
 desc student;
 
----------------------------------------------------------------------------------------------------------------------------------
+=================================================================================================================================
+
+##  INSERT -->
 
 insert into student values(---------);
-insert into student(ID) values(22);
+insert into student(name, roll) values(mayur, 22);
 
----------------------------------------------------------------------------------------------------------------------------------
+=================================================================================================================================
 
 select * from student;
 select roll, name from student;
+select from passanger WHERE city = "alwar";
+select from passanger WHERE PId BETWEEN 4 and 8;
+select 3*4;
+select 3+4;
+
+select * from employees WHERE city IN("alwar", "rewari", "delhi");
+select * from employees WHERE name LIKE "M_y%";
+
+select e.name, p.name from employee e, parent p;
+
+=================================================================================================================================
+
+##  LIMIT & OFFSET -->
+
+select * from toppers LIMIT 4;
+select * from toppers LIMIT 3 OFFSET 2;
+
+=================================================================================================================================
+
+select * from employee WHERE city IS NULL;
+select * from employee WHERE city IS NOT NULL;
+
+=================================================================================================================================
+
+##  ALIASES(AS) -->
+
+select name AS Employee from employee;
+select name AS "Employee Name" from employee;
+
+=================================================================================================================================
+
+select DISTINCT interest from employee;
+select ROUND(SUM(percentage),2) from student;
+select COUNT(DISTINCT(city)), ROUND(AVG(salary),2) from employee;
+
+=================================================================================================================================
+
+##  CONDITIONALS -->
+
+select IF (3<10, "small", "large");
+select name, yearJoin, IF(yearJoin < 2000, "senior", "junior") AS title from employee;
+select IFNULL("A", "B");
+select IFNULL("NULL", "B");
+
+=================================================================================================================================
+
+##  KEY CONSTRAINTS -->
+
+CREATE table employee(id int PRIMARY KEY, roll int UNIQUE, name varchar(20) NOT NULL, experience int DEFAULT "5", age int check(age>=18), married BOOLEAN);
+INSERT INTO employee VALUES(1, NULL, "Mayur", DEFAULT, 19, false);
+
+CREATE table ticket(TId int, TData date, FOREIGN KEY(TId) REFERENCES employee(EId));
+
+CREATE TABLE Person(Id int NOT NULL, LastName varchar(255) NOT NULL, FirstName varchar(255), Age int, CONSTRAINT PK_Person PRIMARY KEY (ID, LastName));
+
+=================================================================================================================================
+
+##  DDL(Data Defination Language) -->
+
+TRUNCATE table employee;
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-truncate student;
-drop table student;
-delete from student where roll=22;
+DROP table employee;
+
+=================================================================================================================================
+
+##  DML(Data Manipulation Language) -->
+
+UPDATE employee set city = "Rewari" where EId = 4;
+UPDATE employee set experience = experience+5;
+UPDATE employee set experience = experience+5 where EId BETWEEN 4 and 6;
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-create database college;
-use college;
-create TABLE student(name varchar(20), roll int, section varchar(5), semester int);
-desc student;
-INSERT into student values("Mayur", 22, "B", 4);
-INSERT into student values("Pratyush", 43, "B", 4);
-INSERT into student values("Yuvraj", 52, "A", 4);
-INSERT into student values("Chandan", 32, "C", 4);
-SELECT * from student;
+DELETE from employee WHERE EId = 6;
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-CREATE table keykey(id int PRIMARY KEY, name varchar(20) NOT NULL, category varchar(10), price int DEFAULT "10", age int check(age>=18));
-INSERT INTO keykey VALUES(1, "Mayur", null, DEFAULT, 17);
+ALTER table employee ADD COLUMN hobbie varchar(20);
+ALTER table employee ADD PRIMARY KEY (EId);
+ALTER table employee ADD CONSTRAINT PK_Employee PRIMARY KEY (ID, roll);
 
----------------------------------------------------------------------------------------------------------------------------------
+ALTER table employee DROP COLUMN hobbie;
+ALTER table employee DROP PRIMARY KEY;
 
-** Shopping--> **
-create table customer(customerID int PRIMARY key, name varchar(20) not null, age int, phone varchar(10) UNIQUE KEY not null, address varchar(20), email varchar(20));
-create table review(review_ID int PRIMARY KEY, review_Data varchar(20) not null, review_Star int CHECK(review_Star<=5));
-create table order_History(order_ID int PRIMARY KEY, price int NOT null, order_Date varchar(8) not null, feedback varchar(20), delevered_Date varchar(8) not null);
-create table delevery_Boy(delevery_Boy_ID int PRIMARY KEY, name varchar(20) not null, phone varchar(10) unique not null, vechile_number varchar(10) not null unique);
-create table order_Details(order_ID int PRIMARY KEY, price int NOT null, discount int not null, bill_ID int unique not null);
+ALTER table employee MODIFY age varchar(20);
 
----------------------------------------------------------------------------------------------------------------------------------
+ALTER table employee RENAME TO new_table_name;
+ALTER table employee RENAME COLUMN old_name TO new_name;
 
-** Train Reservation--> **
-CREATE table passanger(ID int PRIMARY key, name varchar(20) not null, phone varchar(10) UNIQUE not null, age int not null, gender varchar(1) not null);
-CREATE table ticket(ID int PRIMARY key, PNR varchar(10) UNIQUE not null, seat_No int not null UNIQUE, coach_No varchar(3)not null, number_of_Passangers int not null, train_Time varchar(8) not null);
-CREATE table station(ID int PRIMARY key, name varchar(20) not null, station_Zone varchar(20) not null, number_of_Plateform int not null);
-CREATE table money(ID int PRIMARY key, bank_Name varchar(20) not null, account_Number varchar(10) unique not null, amount int not null, money_date varchar(8) not null, money_Time varchar(8) not null, UPI_Type varchar(20) not null);
+=================================================================================================================================
 
----------------------------------------------------------------------------------------------------------------------------------
-
-create table ticket(TicketNo int primary key, TData date not null, TFare int not null, PId int, TNo int, FOREIGN KEY(PId) REFERENCES passanger(PId), FOREIGN KEY(TNo) REFERENCES train(TNo));
-update passanger(table name) set PAddress = "Tonk" where PId = 4;
-update passanger set PAge = PAge+5;
-update passanger set PAge = PAge-5 where PId BETWEEN 4 and 6;
-DELETE from passanger WHERE PId = 6;
-SELECT from passanger WHERE city = "alwar";
-SELECT from passanger WHERE PId BETWEEN 4 and 8;
-
----------------------------------------------------------------------------------------------------------------------------------
+##  ORDER BY -->
 
 SELECT * from student ORDER BY SName;
-SELECT * from student ORDER BY SName desc;
-SELECT max(SPer) from student;
-SELECT max(SPer) as MaxPercentage from student;
+SELECT * from student ORDER BY SName DESc;
+select * from employee ORDER BY year DESC, marks ASC;
 
----------------------------------------------------------------------------------------------------------------------------------
+=================================================================================================================================
 
-GROUP BY always used with aggregates(max, min, avg, sum, count), otherwise not
-BETWEEN can also be use in GROUP BY
-SELECT SBranch, max(SPer) from student GROUP BY SBranch; [GROUP BY]
-SELECT SName, max(SPer) from student GROUP BY SBranch; [GROUP BY]
-SELECT SBranch, count(SPer) from student GROUP BY SBranch; [GROUP BY]
+##  AGGREGATES -->
 
-we use HAVING, not WHERE in GROUP BY
-SELECT SBranch, max(SPer) from student GROUPBY HAVING max(SPer)>50; [GROUPBY]
+SELECT max(experience) from employee;
+SELECT max(experience) AS MaxExperience from employee;
 
----------------------------------------------------------------------------------------------------------------------------------
+=================================================================================================================================
 
-ALTER table student add COLUMN hobbie varchar(20);
-ALTER table student drop COLUMN hobbie;
-ALTER table student MODIFY SBranch int;
-ALTER table student MODIFY SBranch varchar(40);
-DROP TABLE student;
-TRUNCATE TABLE tableName;
+##  GROUP BY -->
 
----------------------------------------------------------------------------------------------------------------------------------
+GROUP BY always used with aggregates(max, min, avg, sum, count)
+HAVING is used instead of WHERE in GROUP BY
+BETWEEN can be used
 
-create table sing(SId int PRIMARY key, FOREIGN KEY(SId) REFERENCES passanger(PId), SName varchar(20))
+select SBranch, MAX(SPer) from student GROUP BY SBranch;
+select SBranch, MAX(SPer) from student GROUP BY HAVING max(SPer)>50;
 
----------------------------------------------------------------------------------------------------------------------------------
+select SBranch, COUNT(SPer) from student GROUP BY SBranch;
+select yearJoin, COUNT(yearJoin) from employees GROUPBY yearJoin;
+
+=================================================================================================================================
 
 SELECT * from dance UNION SELECT * from sing
-SELECT * from dance intersect SELECT * from sing
-SELECT * from dance except SELECT * from sing
+SELECT * from dance INTERSECT SELECT * from sing
+SELECT * from dance EXCEPT SELECT * from sing
 
+#################################################################################################################################
+#################################################################################################################################
+#################################################################################################################################
+
+##  FUNCTIONS -->
+
+select TRIM("    MAYUR ") AS trimmer;  --> trim starting & ending spaces
+select SUBSTRING("abcdefghi", 3, 5); --> trim the string from specific location to the given number of letters
+select SUBSTRING(name, 3, 5) AS extractNames from employees;
+select STRCMP("ABC", "ABC"); --> return 0, -1
+select LENGTH("ABC"); --> give the length
+select name, LENGTH(name) AS nameLenght from employees;
+select REVERSE("ABC"); --> reverse the string
+select name, REVERSE(name) AS nameReverse from employees;
+select CEIL(2.89);
+select name, CEIL(salary) AS upperSalary form employees;
+select FLOOR(2.89);
+select name, FLOOR(salary) AS upperSalary form employees;
+select TRUNCATE(22.4512, 3);
+select REPLACE("mySQL", "SQL", "Hello");
+select name, REPLACE(name, "a", "z");
+select CAST(150 AS CHAR);
+select CAST(salary AS CHAR) from employees; --> just show as char, not changed in actual table
+select COALESCE(NULL, NULL, 1, 3); --> return 1st notNull value
+
+Difference between IFNULL and COALESCE
+
+select IF(STRCMP("hi", "bye")=0, "yes", "no");
+
+=================================================================================================================================
+
+##  AUTO INCREMENT -->
+
+create table auto(id int primary key auto_increment, name varchar(20));
+insert into auto(name) values("alex");
+ALTER table auto AUTO_INCREMENT = 10; --> Set the starting value for AUTO_INCREMENT as this is the only method
+
+=================================================================================================================================
+
+##  INDEX -->
+
+Always created on column.
+Indexes are used to retrieve data from the database more quickly than otherwise. The users cannot see the indexes, they are just used to speed up searches/queries.
+Note: Updating a table with indexes takes more time than updating a table without (because the indexes also need an update). So, only create indexes on columns that will be frequently searched against.
+
+create INDEX indexName ON employee(city);
+SHOW INDEXES from employee;
+
+=================================================================================================================================
+
+##  EXPLAIN -->
+
+=================================================================================================================================
+
+##  SUBQUERY -->
+
+We cannot use ORDER BY in subquery, use in outerquery.
+
+select name, id from employee where id IN (select id from employee where city = "delhi");
+
+=================================================================================================================================
+
+##  CASE -->
+
+select name, salary,
+CASE 
+WHEN salary > 10 THEN "high salary"
+WHEN salary = 10 THEN "average salary"
+WHEN salary < 10 THEN "low salary"
+ELSE "no salary"
+END
+from employee;
+
+=================================================================================================================================
+
+##  DCL(Data Control Language) -->
+
+Operations --> grant, revoke
+
+create USER admin;
+create USER admin IDENTIFIED BY "mayur";
+
+GRANT select, update, insert ON employee TO admin;
+show GRANTS for admin;
+
+REVOKE select, update ON employee from admin;
+
+DROP USER admin;
+
+=================================================================================================================================
+
+##  VIEW -->
+
+create VIEW delhiEmp AS select name, city from employee where city = "delhi";
+select * from delhiEmp;
+create OR REPLACE VIEW delhiEmp AS select name from employee where city = "delhi";
+DROP VIEW delhiEmp;
+
+=================================================================================================================================
+
+##  STORED PROCEDURES -->
+
+DELIMITER $$
+create PROCEDURE sp_allDetails()
+BEGIN
+select * from employee;
+END $$
+DELIMITER ;
+CALL sp_allDetails;
 
 ---------------------------------------------------------------------------------------------------------------------------------
+
+DELIMITER $$
+create PROCEDURE sp_merit(IN cutoff int)
+BEGIN
+select name, yearJoin, percentage from employee where percentage > cutoff;
+END $$
+DELIMITER ;
+CALL sp_merit(56);
+
 ---------------------------------------------------------------------------------------------------------------------------------
+
+DELIMITER $$
+create PROCEDURE sp_avgSalary(OUT sal DECIMAL(5, 2))
+BEGIN
+select AVG(salaryEmp) INTO sal from employee;
+END $$
+DELIMITER ;
+CALL sp_avgSalary(@store);
+select @store;
+
 ---------------------------------------------------------------------------------------------------------------------------------
+
+DELIMITER $$
+create PROCEDURE sp_counter(INOUT counter int, IN increase int)
+BEGIN
+SET counter = counter + increase;
+END $$
+DELIMITER ;
+SET @counter = 5;
+CALL sp_counter(@counter, 3);
+select @counter;
+
 ---------------------------------------------------------------------------------------------------------------------------------
+
+SHOW PROCEDURE STATUS where name LIKE "sp%";
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+DROP PROCEDURE sp_counter;
+cannot modify the PROCEDURE except we can write comments
+
+=================================================================================================================================
+
+##  FUNCTIONS -->
+
+DELIMITER $$
+create FUNCTION email(name varchar(20), domain varchar(20))
+RETURNS varchar(40) DETERMINISTIC
+BEGIN
+DECLARE result varchar(40);
+select CONCAT(name, "@", domain) INTO result;
+RETURN result;
+END $$
+DELIMITER ;
+
+=================================================================================================================================
+
+Difference between Stored Procedure and user defined functions
+
+=================================================================================================================================
+
+##  TRIGGERS -->
+
+Types --> before/after insert, update, delete

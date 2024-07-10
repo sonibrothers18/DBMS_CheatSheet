@@ -1,0 +1,57 @@
+How many maximum columns you can create for an index in MySQL?
+
+ Any number of number of columns
+ 64
+ 32
+ 16
+
+ Write a query to display the current date and time _________?
+
+ SELECT NOW();
+ SELECT NOW
+
+ What is the usage of the “i-am-a-dummy” flag in MySQL?
+
+ Not a valid flag
+ used as a comment
+ Both A and B
+ To deny the UPDATE and DELETE commands unless the WHERE clause is present
+
+ Assume theres an employees table having employees detail as their Name, age and City, and there is an entry like (‘Siddharth’, 32, ‘Delhi’),
+Write a query to find the position of the letter ‘a’ in ‘Siddharth’ ??
+
+ SELECT LOCATE('a',Name) FROM employee where Name='Siddharth';
+ SELECT LOCATE('a',Name) FROM employee where Name='Siddharth
+
+ name end with r and contain 4 letters
+
+ Which of the following WHERE clauses is faster?
+
+(i) WHERE column * 2 < 4
+(ii) WHERE column < 4 / 2
+
+ (i)
+ (ii)
+ Both (i)and(ii)
+ Depends on the operating system
+
+ What is the command to see the warning messages?
+
+ DISPLAY WARNINGS
+ DISP WARNINGS
+ DISP WARNING
+ SHOW WARNINGS
+
+ Which keyword suppresses errors?
+
+ SUPPRESS
+ STOP
+ PREVENT
+ IGNORE
+
+ What executes on a time activated basis according to a schedule?
+
+ Stored program
+ Events
+ Triggers
+ Stored procedures
