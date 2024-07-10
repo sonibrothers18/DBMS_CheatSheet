@@ -1,4 +1,4 @@
-create database college;
+
 use college;
 create table student(name varchar(20), roll int, section varchar(5));
 desc student;
