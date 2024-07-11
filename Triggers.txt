@@ -1,0 +1,252 @@
+Types of Triggers
+-----------------
+
+=============
+BEFORE INSERT
+=============
+
+Create a new table
+------------------
+CREATE TABLE empDemo (ID int, Name varchar(15), age int);
+
+
+
+Create Before Insert Trigger
+----------------------------
+DELIMITER $$
+CREATE TRIGGER BEFOREINSERT
+BEFORE INSERT ON empDemo  FOR EACH ROW
+BEGIN
+IF NEW.age < 18 THEN SET NEW.age = NULL;
+END IF;
+END $$
+DELIMITER $$
+
+DELIMITER ;
+
+
+
+Insert values in table and test trigger
+---------------------------------------
+INSERT INTO empDemo (ID, Name, age) VALUES (1, 'Sapan', 24);
+ 
+SELECT * FROM empDemo;
+
+INSERT INTO empDemo (ID, Name, age) VALUES (2, 'Naman', 13);
+
+SELECT * FROM empDemo;
+
+
+
+=============
+AFTER INSERT
+=============
+
+Crate a new table
+-----------------
+Create Table dummy(EMP_ID int, Name varchar(20), Year_Joined int, Percentage varchar(4), City varchar(15), Married BOOLEAN, movie_genre varchar(15),
+Salary_in_LPA float);
+
+
+
+Create trigger on empployees2 table
+-----------------------------------
+DELIMITER $$  
+Create Trigger AFTERINSERT 
+AFTER INSERT ON employees2 FOR EACH ROW  
+BEGIN  
+INSERT INTO dummy VALUES (new.emp_id, new.Name, new.Year_Joined, new.Percentage, new.City, new.Married, new.movie_genre, new.Salary_in_LPA);  
+END $$
+
+DELIMITER ;
+
+
+Insert into employees2 and check dummy table 
+----------------------------------------
+
+INSERT INTO employees2 (EMP_ID, Name, Year_Joined, Percentage, City, Married, movie_genre, Salary_in_LPA) VALUES   
+(16, 'Alex', 1990, '89%', 'Kolkata', true,'Comedy', 46.25);
+
+
+Select * from dummy;
+
+
+
+=============
+BEFORE UPDATE
+============
+
+
+Create a trigger
+----------------
+DELIMITER $$  
+  
+CREATE TRIGGER BEFOREUPDATE
+BEFORE UPDATE  
+ON employees2 FOR EACH ROW  
+BEGIN  
+    DECLARE erMSG VARCHAR(200);  
+    SET erMSG = ('% cannot be greater than 100, kindly enter a % between 0-100');  
+    IF new.Percentage > 100 THEN  
+    SIGNAL SQLSTATE '45000' 
+    SET MESSAGE_TEXT = erMSG ;  
+    END IF;  
+END $$  
+  
+DELIMITER ;
+
+
+Check the trigger is working or not
+-----------------------------------
+UPDATE employees2 SET Percentage = 102 WHERE EMP_ID = 16;
+
+
+
+=============
+AFTER UPDATE
+=============
+
+
+Lets assume table is only of Software Engineers(SE) and the role is SE1,SE2, SE3, and SE4 = Senior
+-------------------------------------------------------------------------------------------------
+
+Create a table 
+--------------
+
+CREATE TABLE empC(id int, Name varchar(30), Role varchar(20));
+
+INSERT INTO empC (id, Name, Role) VALUES 
+(1,'Nikhil', '2'),
+(2,'Aman', '1'),
+(3,'Tanmay', '1'),
+(4,'Samay', '3');
+
+SELECT * FROM empC;
+
+
+Create another table that will contain updated roles
+----------------------------------------------------
+CREATE TABLE empLog(descriptions varchar(100) NOT NULL);
+
+
+Trigger
+-------
+
+DELIMITER $$  
+  
+CREATE TRIGGER AFTERUPDATE 
+AFTER UPDATE
+ON empC FOR EACH ROW  
+BEGIN  
+    INSERT INTO empLog(descriptions) VALUES (CONCAT('Update EMP Record ', OLD.Name, ' Previous Role:',  
+    OLD.Role, ' Present Role', NEW.Role));  
+END $$  
+  
+DELIMITER ;
+
+
+
+UPDATE empC  SET Role = Role + 1;
+
+Select * from empC;
+Select * from empLog;
+
+
+
+=============
+BEFORE DELETE
+=============
+
+Create new table emp salaries
+-----------------------------
+
+CREATE TABLE empS(EID INT PRIMARY KEY, salaryLPA int NOT NULL DEFAULT 0);
+
+INSERT INTO empS(EID , salaryLPA ) VALUES  
+(1, 24),
+(2, 17),
+(3, 5),
+(4, 8) ;
+
+SELECT * FROM empS;
+
+
+Create Salary backup table
+--------------------------
+
+CREATE TABLE salaryBackup (ID INT PRIMARY KEY AUTO_INCREMENT, EID INT,  
+salaryLPA int NOT NULL DEFAULT 0); 
+
+
+Create the trigger
+------------------
+DELIMITER $$  
+  
+CREATE TRIGGER BEFOREDELETE
+BEFORE DELETE  
+ON empS FOR EACH ROW  
+BEGIN  
+    INSERT INTO salaryBackup (EID, salaryLPA )  
+    VALUES(OLD.EID, OLD.salaryLPA);  
+END$$   
+  
+DELIMITER ;
+
+
+
+Check the trigger is working or not
+-----------------------------------
+DELETE FROM empS WHERE EID = 2;
+SELECT * FROM salaryBackup;
+SELECT * FROM empS;
+
+DELETE FROM empS;
+SELECT * FROM salaryBackup;
+
+
+
+=============
+AFTER DELETE
+=============
+We will create a trigger that after a row is deletd will update the total salary in a new table. 
+We will be using the above salary table created empS
+
+
+Create another table that will store total salary of all emp
+------------------------------------------------------------
+
+CREATE TABLE totalS(TSalary int NOT NULL);
+INSERT INTO totalS(TSalary) SELECT SUM(SalaryLPA) FROM empS;
+SELECT * FROM totalS;
+
+
+Create afterDelete trigger
+--------------------------
+DELIMITER $$  
+  
+CREATE TRIGGER AFTERDELETE 
+AFTER DELETE  
+ON empS FOR EACH ROW  
+BEGIN  
+   UPDATE totalS SET TSalary = TSalary - old.SalaryLPA;  
+END$$   
+  
+DELIMITER ;
+
+
+
+Check if the trigger is working
+-------------------------------
+DELETE FROM empS WHERE EID = 3;
+SELECT * FROM totalS;
+
+
+
+
+==============
+show triggers;
+==============
+
+===============
+drop trigger name;
+==================

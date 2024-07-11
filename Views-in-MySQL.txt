@@ -1,0 +1,92 @@
+Create a view of all the employees living in Delhi
+--------------------------------------------------
+
+CREATE VIEW Delhi_Employees AS SELECT Name, City FROM employees2 WHERE City = 'Delhi';
+
+
+
+===========================================================================================================================================================
+NOTE : If want to give a name a view with space between,then use - CREATE VIEW `Delhi Employees` AS SELECT Name, City FROM employees2 WHERE City = 'Delhi';
+===========================================================================================================================================================
+
+
+
+Print the view
+--------------
+SELECT * FROM Delhi_Employees;
+
+
+
+Question) - Create a view in which contains the name and salary of the employees whose Salary > average salary
+---------
+
+Answer) CREATE VIEW High_Salary_Emps AS 
+-------	SELECT Name, Salary_in_LPA FROM employees2
+	WHERE Salary_in_LPA > (SELECT AVG(Salary_in_LPA) FROM employees2);
+
+
+	SELECT * FROM High_Salary_Emps;
+
+
+
+=============
+Update a VIEW
+=============
+
+
+CREATE OR REPLACE VIEW Delhi_Employees AS SELECT Name, Percentage FROM employees2 WHERE City = 'Pune';
+
+SELECT * FROM Delhi_Employees;
+
+
+
+
+=============
+DROP a VIEW
+=============
+
+
+DROP VIEW Delhi_Employees;
+
+
+
+=====================================
+VIEW WITH A JOIN CLAUSE with 2 tables
+=====================================
+
+
+Create a  second table called course
+------------------------------------
+
+CREATE TABLE course (EMP_ID int, c_name varchar(30), Trainer CHAR); 
+
+
+Insert Values into course table
+-------------------------------
+
+INSERT INTO course VALUES (1, 'Python', 'A'),
+(2,'MySQL', 'B'),
+(3,'DataScience','C'),
+(4,'Java', 'D'),
+(5,'PHP', 'E'),
+(6,'Hadoop', 'F'),
+(7,'Maths', 'G'),
+(8,'Statistics', 'H'),
+(9,'Tableau', 'I'),
+(10,'Qlik_Sense', 'J'),
+(11,'PowerBI', 'K'),
+(12,'Physics', 'L'),
+(13,'Springboot', 'M'),
+(14,'Linux', 'N'),
+(15,'ReactJS', 'O');
+
+
+Create a view with JOIN clause
+------------------------------
+
+Create view E_C_T AS SELECT e.Name, c.c_name, c.Trainer FROM employees2 e, course c WHERE e.EMP_ID = c.EMP_ID;
+
+
+Print the View
+--------------
+SELECT * FROM E_C_T

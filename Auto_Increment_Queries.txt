@@ -1,0 +1,13 @@
+Create a table with Auto_Increment field
+----------------------------------------
+
+CREATE TABLE EMP3(EMP_ID int NOT NULL AUTO_INCREMENT,
+First_Name varchar(30) NOT NULL,
+Last_Name varchar(30),
+PRIMARY KEY (EMP_ID));
+
+
+Insert Values in the table without specifying the EMP_ID which is the Auto_Increment field as it will be automatically populated for you
+----------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO EMP3 (first_Name, Last_Name) VALUES ('Sagan','Sharma');

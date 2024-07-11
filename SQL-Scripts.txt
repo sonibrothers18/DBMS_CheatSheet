@@ -1,0 +1,31 @@
+# Use EMP Database
+==================
+
+USE EMP;
+
+
+# Create table emlployees2
+=========================
+
+CREATE TABLE employees2 (EMP_ID int, Name varchar(20), Year_Joined int, Percentage varchar(4), City varchar(15), Married BOOLEAN, movie_genre varchar(15), Salary_in_LPA float);
+
+
+# Insert data into employees table
+==================================
+
+INSERT INTO employees2 (EMP_ID, Name, Year_Joined, Percentage, City, Married, movie_genre, Salary_in_LPA) VALUES 
+(1, 'Sangam', 2005, '82%', 'Pune', false,'Drama', 32.7),
+(2, 'Tanmay', 1999, '92%', 'Maharashtra', false,'Romance', 34),
+(3, 'Darshit', 1992, '70%', NULL, true, 'Action', 25.6),
+(4, 'Pranjal', 2001, '86%', 'Lucknow', false, 'Drama', 15),
+(5, 'Sajal', 1984, '51%', NULL, true, 'Action', 42.7),
+(6, 'Anand', 1997, '77%', 'Gujrat', true, 'Thriller', 13.3),
+(7, 'Atul', 2002, '89%', 'Delhi', false, 'Romance', 4.8),
+(8, 'Rajanjeet', 1998, '95%', 'Noida', false, 'Action', 10),
+(9, 'Aditya', 2010, NULL, 'Chennai', false, 'Action', 1.25),
+(10, 'Samay', 1972, '68%', 'Vizag', true, 'Thriller', 28.9),
+(11, 'Swati', 1997, '77%', 'Pune', false, 'Drama', 14),
+(12, 'Aparna', 2002, '89%', 'Delhi', false, 'Romance', 2.75),
+(13, 'Swapnil',1992 , '72%', 'Delhi', true, 'Comedy', 18.2),
+(14, 'Harsh',1992 , '52%', 'Delhi', false, 'Comedy', 12.8),
+(15, 'Anumapam',1984 , '69%', 'Vizag', true, 'Comedy', 37.25);

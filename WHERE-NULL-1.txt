@@ -1,0 +1,32 @@
+# Create database EMP
+=====================
+
+CREATE DATABASE EMP; 
+
+
+# Use EMP Database
+==================
+
+USE EMP;
+
+
+# Create table emlployees
+=========================
+
+CREATE TABLE employees (EMP_ID int, Name varchar(20), Year_Joined int, Percentage varchar(4), City varchar(15), Married BOOLEAN);
+
+
+# Insert data into employees table
+==================================
+
+INSERT INTO employees (EMP_ID, Name, Year_Joined, Percentage, City, Married) VALUES 
+(1, 'Sangam', 2005, '82%', 'Pune', false),
+(2, 'Tanmay', 1999, '92%', 'Maharashtra', false),
+(3, 'Darshit', 1992, '70%', NULL, true),
+(4, 'Pranjal', 2001, '86%', 'Lucknow', false),
+(5, 'Sajal', 1984, '51%', NULL, true),
+(6, 'Anand', 1997, '77%', 'Gujrat', true),
+(7, 'Atul', 2002, '89%', 'Delhi', false),
+(8, 'Rajanjeet', 1998, '95%', 'Noida', false),
+(9, 'Aditya', 2010, NULL, 'Chennai', false),
+(10, 'Samay', 1972, '68%', 'Vizag', true);

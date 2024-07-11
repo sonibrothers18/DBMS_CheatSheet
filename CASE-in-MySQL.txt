@@ -1,0 +1,37 @@
+============
+CASE example
+============
+
+SELECT Name, Salary_in_LPA,
+CASE
+	WHEN  Salary_in_LPA > 19.55 THEN "High salaried employee"
+	WHEN  Salary_in_LPA = 19.55 THEN "Average salaried employee"
+	WHEN  Salary_in_LPA < 19.55 THEN "Low salaried employee"
+	ELSE "Salary Not Defined"
+END
+FROM employees2;
+
+
+
+====================
+Nested CASE examples
+====================
+
+Question) If Money in bank is less than 100, then I will drink coffee
+	  If Money in bank is between 100 to 200, then I will eat Idli and drink coffee
+	  If Money in bank is between 200 to 400, then I will go to KFC/McD
+	  ELSE, I will eat buffet
+
+Answer) 
+
+SET @Money:= 170;
+SELECT
+	CASE
+	WHEN @Money >=400 THEN "I will eat buffet"                
+	WHEN @Money < 400 THEN 
+	CASE
+		WHEN @Money BETWEEN 0 AND 100 THEN "I will drink coffee"
+		WHEN @Money BETWEEN 101 AND 200 THEN "I will eat Idli and drink coffee"
+		WHEN @Money BETWEEN 201 AND 400 THEN "I will go to KFC/McD"
+		END 
+END as FOOD;

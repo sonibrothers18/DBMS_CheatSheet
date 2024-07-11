@@ -1,0 +1,133 @@
+=============
+Inner JOIN
+============
+
+Create parents table
+--------------------
+
+CREATE TABLE parents(EMP_ID int, FName varchar(20), MName varchar(20));
+
+INSERT INTO parents(EMP_ID, FName, MName) VALUES (1,'Shyam','Sunita'),
+(3,'Ramesh', 'Sakshi'),  
+(4,'Lokesh','Swati'),  
+(8,'Modak','Praachi'),
+(12,'Parvati','Lakshmi'), 
+(23,'Lakshman','Megha'),   
+(47,'Darshan','Rashmi');
+
+
+Inner join 2 tables
+-------------------
+
+SELECT parents.EMP_ID, employees2.Name, employees2.City
+FROM parents
+INNER JOIN employees2 ON parents.EMP_ID=employees2.EMP_ID;
+
+
+JOIN 3 TABLES
+-------------
+
+Create a table empCourse for storing course enrollement information of employees
+--------------------------------------------------------------------------------
+
+CREATE TABLE empCourse(id int, EMP_ID int, CourseName varchar(20));
+INSERT INTO empCourse(id, EMP_ID, CourseName) VALUES(1, 1, 'ReactJS'),
+(2, 2, 'MySQL'),
+(3, 2, 'MySQL'),
+(4, 11, 'Python'),
+(5, 5, 'Java');
+
+
+SELECT parents.EMP_ID, employees2.Name, empCourse.CourseName
+FROM ((parents
+INNER JOIN employees2 ON parents.EMP_ID=employees2.EMP_ID)
+INNER JOIN empCourse ON parents.EMP_ID= empCourse.EMP_ID);
+
+
+=============
+LEFT JOIN
+============
+
+SELECT employees2.Name, parents.EMP_ID, parents.FName, parents.MName
+FROM employees2
+LEFT JOIN parents ON employees2.EMP_ID = parents.EMP_ID
+ORDER BY employees2.Name;
+
+
+=============
+RIGHT JOIN
+============
+
+SELECT parents.EMP_ID, employees2.Name, employees2.City
+FROM parents
+RIGHT JOIN employees2 ON parents.EMP_ID = employees2.EMP_ID
+ORDER BY parents.EMP_ID;
+
+=============
+Cross JOIN - returns all records from both tables doesnt matter if match or not
+============
+
+SELECT employees2.Name, parents.EMP_ID, parents.FName
+FROM employees2
+CROSS JOIN parents;
+
+
+===========
+SELF JOIN
+===========
+
+Matches all the employees from same city
+----------------------------------------
+
+SELECT A.Name AS NameA, B.Name AS NameB, A.City
+FROM employees2 A, employees2 B
+WHERE A.EMP_ID<> B.EMP_ID
+AND A.City = B.City
+ORDER BY A.City;
+
+
+======
+UNION
+======
+
+Create a table empBornCity
+--------------------------
+CREATE TABLE empBornCity(EMP_ID, int, City, varchar(20));
+
+INSERT INTO empBornCity (EMP_ID, City) VALUES (1,'Kolkata'),(2, 'Pune'), (8,'Noida'), (2, 'Lucknow');
+
+
+UNION
+-----
+(DISTICT VALUES)
+SELECT City FROM employees2 
+UNION
+SELECT City FROM emp_BornCity
+ORDER BY City;
+
+
+UNION ALL
+---------
+(DUPLICATE VALUES)
+SELECT City FROM employees2 
+UNION ALL
+SELECT City FROM emp_BornCity
+ORDER BY City;
+
+
+
+
+================
+OUTER JOIN
+===================
+
+NOTE: MySQL doesn't have FULL OUTER JOIN, but we can show it using LEFT JOIN, RIGHT JOIN and UNION.
+
+
+SELECT employees2.Name, parents.EMP_ID, parents.FName, parents.MName
+FROM employees2
+LEFT JOIN parents ON employees2.EMP_ID = parents.EMP_ID
+UNION 
+SELECT employees2.Name, parents.EMP_ID, parents.FName, parents.MName
+FROM employees2
+RIGHT JOIN parents ON employees2.EMP_ID = parents.EMP_ID;
